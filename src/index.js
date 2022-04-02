@@ -1,11 +1,11 @@
-require('dotenv').config();
-const fs = require('fs');
-const express = require('express');
+require("dotenv").config();
+const fs = require("fs");
+const express = require("express");
 const app = express();
-const path = require('path');
+const path = require("path");
 const port = 8080;
-const bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid');
+const bodyParser = require("body-parser");
+const { v4: uuidv4 } = require("uuid");
 const todoFilePath = process.env.BASE_JSON_PATH;
 
 //Read todos from todos.json into variable
@@ -19,17 +19,15 @@ app.use(bodyParser.json());
 app.use("/content", express.static(path.join(__dirname, "public")));
 
 app.get("/", (_, res) => {
-  /*
   res.sendFile("./public/index.html", { root: __dirname });
-  */
+
   res.status(501).end();
 });
 
-app.get('/todos', (_, res) => {
-  /*
-  res.header("Content-Type","application/json");
+app.get("/todos", (_, res) => {
+  res.header("Content-Type", "application/json");
   res.sendFile(todoFilePath, { root: __dirname });
-  */
+
   res.status(501).end();
 });
 
@@ -48,7 +46,7 @@ app.get('/todos', (_, res) => {
 //Add DELETE request with path '/todos/:id
 
 app.listen(port, function () {
-    console.log(`Node server is running... http://localhost:${port}`);
+  console.log(`Node server is running... http://localhost:${port}`);
 });
 
 module.exports = app;
