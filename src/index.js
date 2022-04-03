@@ -80,16 +80,21 @@ app.post("/todos", (req, res) => {
 // Edit the name and/or due date attributes of a todo
 app.patch("/todos/:id", (req, res) => {
   const { name, due } = req.body;
-  const updateTodoById = todos.find((todo) => todo.id === req.params.id);
 
-  if (!name && !due) {
-    res.sendStatus(400);
-  }
-  if (updateTodoById) {
-    if (name) updateTodoById.name = name;
-    if (due) updateTodoById.due = due;
-    res.status(200).send(updateTodoById);
-  }
+  todos.map((todo) => {
+    if (todo.id === req.params.id) {
+      if (name) todo.name = name;
+      if (due) todo.due = due;
+      fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
+        if (err) console.log(err);
+      });
+      res.status(200).send("Todo updated");
+    }
+
+    if (!name && !due) {
+      res.sendStatus(400);
+    }
+  });
 });
 
 //Add POST request with path '/todos/:id/complete
@@ -103,7 +108,7 @@ app.post("/todos/:id/complete", (req, res) => {
       fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
         if (err) console.log(err);
       });
-      res.status(201).send("Todo added successfully!");
+      res.status(201).send("Todo completed");
     }
   });
   res.sendStatus(400);
@@ -111,9 +116,20 @@ app.post("/todos/:id/complete", (req, res) => {
 
 //Add POST request with path '/todos/:id/undo
 app.post("/todos/:id/undo", (req, res) => {
-  const undoTodo = todos.find((todo) => todo.id === req.params.id);
-  undoTodo.completed = false;
-  res.send(undoTodo);
+  // const undoTodo = todos.find((todo) => todo.id === req.params.id);
+  // undoTodo.completed = false;
+  // res.send(undoTodo);
+
+  todos.map((todo) => {
+    if (todo.id === req.params.id) {
+      todo.completed = false;
+      fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
+        if (err) console.log(err);
+      });
+      res.status(201).send("Todo incompleted");
+    }
+  });
+  res.sendStatus(400);
 });
 
 //Add DELETE request with path '/todos/:id
