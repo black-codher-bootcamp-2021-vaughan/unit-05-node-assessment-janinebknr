@@ -58,14 +58,19 @@ app.get("/todos/:id", (req, res) => {
 // create a new todo
 app.post("/todos", (req, res) => {
   const currentDate = new Date().toISOString();
-  todos.push({
-    id: uuidv4(),
-    name: req.body.name,
-    created: currentDate,
-    due: req.body.due,
-    completed: false,
-  });
-  res.send(todos).status(201);
+
+  if (!req.body.name || !req.body.due) {
+    res.status(400).send("Error! Please check the data you submitted");
+  } else {
+    todos.push({
+      id: uuidv4(),
+      name: req.body.name,
+      created: currentDate,
+      due: req.body.due,
+      completed: false,
+    });
+    res.status(201).send("Todo added successfully!");
+  }
 });
 
 //Add PATCH request with path '/todos/:id
