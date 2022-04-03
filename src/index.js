@@ -91,7 +91,10 @@ app.patch("/todos/:id", (req, res) => {
 //Add POST request with path '/todos/:id/undo
 
 //Add DELETE request with path '/todos/:id
-app.delete("/todos/:id", (req, res) => {});
+app.delete("/todos/:id", (req, res) => {
+  todos = todos.filter((todo) => todo.id !== req.params.id);
+  res.send(todos);
+});
 
 app.listen(port, function () {
   console.log(`Node server is running... http://localhost:${port}`);
