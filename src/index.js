@@ -40,24 +40,22 @@ app.get("/todos/:id", (req, res) => {
   if (req.params.id === "overdue") {
     const currentDate = new Date().toISOString();
     // filter todos whose due date is in the past and status is not completed
-    const overdueTodos = todos
-      .filter((todo) => todo.due < currentDate && todo.completed === false)
-      .map(({ name }) => ({ name }));
-    res.send(overdueTodos);
+    const overdueTodos = todos.filter(
+      (todo) => todo.due < currentDate && todo.completed === false
+    );
+    res.status(200).send(overdueTodos);
   } else if (req.params.id === "completed") {
-    const completedTodos = todos
-      .filter((todo) => todo.completed === true)
-      .map(({ name }) => ({ name }));
-    res.send(completedTodos);
+    const completedTodos = todos.filter((todo) => todo.completed === true);
+    res.status(200).send(completedTodos);
   } else if (returnTodoById) {
-    res.send(returnTodoById);
+    res.status(200).send(returnTodoById);
   } else {
     res.sendStatus(404);
   }
 });
 
 //Add POST request with path '/todos'
-// create a new todo - add error functions
+// create a new todo
 app.post("/todos", (req, res) => {
   const currentDate = new Date().toISOString();
   todos.push({
@@ -67,7 +65,7 @@ app.post("/todos", (req, res) => {
     due: req.body.due,
     completed: false,
   });
-  res.send(todos);
+  res.send(todos).status(201);
 });
 
 //Add PATCH request with path '/todos/:id
