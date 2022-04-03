@@ -76,12 +76,14 @@ app.post("/todos", (req, res) => {
 //Add PATCH request with path '/todos/:id
 // Edit the name and/or due date attributes of a todo
 app.patch("/todos/:id", (req, res) => {
-  // const { id, name, created, due, complete } = req.body;
-  const { name, due } = req.body;
+  const { id, name, created, due, complete } = req.body;
   const updateTodoById = todos.find((todo) => todo.id === req.params.id);
 
+  if (id) updateTodoById.id = id;
   if (name) updateTodoById.name = name;
+  if (created) updateTodoById.created = created;
   if (due) updateTodoById.due = due;
+  if (complete) updateTodoById.complete = complete;
 
   res.send(updateTodoById);
 });
