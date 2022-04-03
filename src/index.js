@@ -89,8 +89,18 @@ app.patch("/todos/:id", (req, res) => {
 });
 
 //Add POST request with path '/todos/:id/complete
+app.post("/todos/:id/complete", (req, res) => {
+  const completeTodo = todos.find((todo) => todo.id === req.params.id);
+  completeTodo.completed = true;
+  res.send(completeTodo);
+});
 
 //Add POST request with path '/todos/:id/undo
+app.post("/todos/:id/undo", (req, res) => {
+  const undoTodo = todos.find((todo) => todo.id === req.params.id);
+  undoTodo.completed = false;
+  res.send(undoTodo);
+});
 
 //Add DELETE request with path '/todos/:id
 app.delete("/todos/:id", (req, res) => {
