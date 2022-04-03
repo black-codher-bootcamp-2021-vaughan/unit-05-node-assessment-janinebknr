@@ -74,12 +74,24 @@ app.post("/todos", (req, res) => {
 });
 
 //Add PATCH request with path '/todos/:id
+// Edit the name and/or due date attributes of a todo
+app.patch("/todos/:id", (req, res) => {
+  // const { id, name, created, due, complete } = req.body;
+  const { name, due } = req.body;
+  const updateTodoById = todos.find((todo) => todo.id === req.params.id);
+
+  if (name) updateTodoById.name = name;
+  if (due) updateTodoById.due = due;
+
+  res.send(updateTodoById);
+});
 
 //Add POST request with path '/todos/:id/complete
 
 //Add POST request with path '/todos/:id/undo
 
 //Add DELETE request with path '/todos/:id
+app.delete("/todos/:id", (req, res) => {});
 
 app.listen(port, function () {
   console.log(`Node server is running... http://localhost:${port}`);
