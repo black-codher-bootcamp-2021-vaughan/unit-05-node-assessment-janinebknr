@@ -56,27 +56,6 @@ app.get("/todos/:id", (req, res) => {
   }
 });
 
-//Add GET request with path '/todos/overdue'
-// if due date is before the current date-time and is not completed
-// CHANGE TO GET AND RES.SEND
-/* app.get("/todos/overdue", (_, res) => {
-  const currentDate = new Date().toISOString();
-  const overdueTodos = todos
-    .filter((todo) => todo.due < currentDate && todo.completed === false)
-    .map(({ name }) => ({ name }));
-  res.send(overdueTodos);
-}); */
-
-//Add GET request with path '/todos/completed'
-// if "completed" is true
-// CHANGE TO GET AND RES.SEND
-/* app.get("/todos/completed", (_, res) => {
-  const completedTodos = todos
-    .filter((todo) => todo.completed === true)
-    .map(({ name }) => ({ name }));
-  res.send(completedTodos);
-}); */
-
 //Add POST request with path '/todos'
 // create a new todo - add error functions
 app.post("/todos", (req, res) => {
