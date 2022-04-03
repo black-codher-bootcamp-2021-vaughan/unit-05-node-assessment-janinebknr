@@ -68,7 +68,10 @@ app.post("/todos", (req, res) => {
       due: req.body.due,
       completed: false,
     });
-    // ADD WRITE CODE
+
+    fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
+      if (err) console.log(err);
+    });
     res.status(201).send("Todo added successfully!");
   }
 });
