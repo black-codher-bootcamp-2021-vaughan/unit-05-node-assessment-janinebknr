@@ -24,11 +24,18 @@ app.get("/", (_, res) => {
   // res.status(501).end();
 });
 
+// GET list of todos
 app.get("/todos", (_, res) => {
   res.header("Content-Type", "application/json");
   res.sendFile(todoFilePath, { root: __dirname });
 
   // res.status(501).end();
+});
+
+// GET todo by id
+app.get("/todos/:id", (req, res) => {
+  const returnTodoById = todos.find((todo) => todo.id === req.params.id);
+  res.send(returnTodoById);
 });
 
 //Add GET request with path '/todos/overdue'
