@@ -94,9 +94,19 @@ app.patch("/todos/:id", (req, res) => {
 
 //Add POST request with path '/todos/:id/complete
 app.post("/todos/:id/complete", (req, res) => {
-  const completeTodo = todos.find((todo) => todo.id === req.params.id);
-  completeTodo.completed = true;
-  res.send(completeTodo);
+  // const completeTodo = todos.find((todo) => todo.id === req.params.id);
+  // completeTodo.completed = true;
+
+  todos.map((todo) => {
+    if (todo.id === req.params.id) {
+      todo.completed = true;
+      fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
+        if (err) console.log(err);
+      });
+      res.status(201).send("Todo added successfully!");
+    }
+  });
+  res.sendStatus(400);
 });
 
 //Add POST request with path '/todos/:id/undo
