@@ -55,7 +55,6 @@ app.get("/todos/:id", (req, res) => {
 });
 
 //Add POST request with path '/todos'
-// create a new todo
 app.post("/todos", (req, res) => {
   const currentDate = new Date().toISOString();
 
@@ -69,6 +68,7 @@ app.post("/todos", (req, res) => {
       due: req.body.due,
       completed: false,
     });
+    // ADD WRITE CODE
     res.status(201).send("Todo added successfully!");
   }
 });
@@ -76,16 +76,17 @@ app.post("/todos", (req, res) => {
 //Add PATCH request with path '/todos/:id
 // Edit the name and/or due date attributes of a todo
 app.patch("/todos/:id", (req, res) => {
-  const { id, name, created, due, complete } = req.body;
+  const { name, due } = req.body;
   const updateTodoById = todos.find((todo) => todo.id === req.params.id);
 
-  if (id) updateTodoById.id = id;
-  if (name) updateTodoById.name = name;
-  if (created) updateTodoById.created = created;
-  if (due) updateTodoById.due = due;
-  if (complete) updateTodoById.complete = complete;
-
-  res.send(updateTodoById);
+  if (!name && !due) {
+    res.sendStatus(400);
+  }
+  if (updateTodoById) {
+    if (name) updateTodoById.name = name;
+    if (due) updateTodoById.due = due;
+    res.status(200).send(updateTodoById);
+  }
 });
 
 //Add POST request with path '/todos/:id/complete
