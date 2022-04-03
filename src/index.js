@@ -32,32 +32,50 @@ app.get("/todos", (_, res) => {
   // res.status(501).end();
 });
 
-// GET todo by id
+// GET todo by id and also /overdue and /completed
 app.get("/todos/:id", (req, res) => {
+  // Return the todo if the "id" in JSON matches id in request parameters
   const returnTodoById = todos.find((todo) => todo.id === req.params.id);
-  res.send(returnTodoById);
+
+  if (req.params.id === "overdue") {
+    const currentDate = new Date().toISOString();
+    // filter todos whose due date is in the past and status is not completed
+    const overdueTodos = todos
+      .filter((todo) => todo.due < currentDate && todo.completed === false)
+      .map(({ name }) => ({ name }));
+    res.send(overdueTodos);
+  } else if (req.params.id === "completed") {
+    const completedTodos = todos
+      .filter((todo) => todo.completed === true)
+      .map(({ name }) => ({ name }));
+    res.send(completedTodos);
+  } else if (returnTodoById) {
+    res.send(returnTodoById);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 //Add GET request with path '/todos/overdue'
 // if due date is before the current date-time and is not completed
 // CHANGE TO GET AND RES.SEND
-app.post("/todos/overdue", (req, res) => {
+/* app.get("/todos/overdue", (_, res) => {
   const currentDate = new Date().toISOString();
   const overdueTodos = todos
     .filter((todo) => todo.due < currentDate && todo.completed === false)
     .map(({ name }) => ({ name }));
   res.send(overdueTodos);
-});
+}); */
 
 //Add GET request with path '/todos/completed'
 // if "completed" is true
 // CHANGE TO GET AND RES.SEND
-app.post("/todos/completed", (req, res) => {
+/* app.get("/todos/completed", (_, res) => {
   const completedTodos = todos
     .filter((todo) => todo.completed === true)
     .map(({ name }) => ({ name }));
   res.send(completedTodos);
-});
+}); */
 
 //Add POST request with path '/todos'
 // create a new todo - add error functions
