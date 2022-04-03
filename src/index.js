@@ -43,20 +43,20 @@ app.get("/todos/:id", (req, res) => {
 // CHANGE TO GET AND RES.SEND
 app.post("/todos/overdue", (req, res) => {
   const currentDate = new Date().toISOString();
-  const overdueTodos = todos
+  todos = todos
     .filter((todo) => todo.due < currentDate && todo.completed === false)
     .map(({ name }) => ({ name }));
-  res.send(overdueTodos);
+  res.send(todos);
 });
 
 //Add GET request with path '/todos/completed'
 // if "completed" is true
 // CHANGE TO GET AND RES.SEND
 app.post("/todos/completed", (req, res) => {
-  const completedTodos = todos
+  todos = todos
     .filter((todo) => todo.completed === true)
     .map(({ name }) => ({ name }));
-  res.send(completedTodos);
+  res.send(todos);
 });
 
 //Add POST request with path '/todos'
