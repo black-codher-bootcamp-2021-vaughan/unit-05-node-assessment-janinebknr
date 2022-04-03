@@ -109,11 +109,14 @@ app.post("/todos/:id/undo", (req, res) => {
 //Add DELETE request with path '/todos/:id
 app.delete("/todos/:id", (req, res) => {
   todos = todos.filter((todo) => todo.id !== req.params.id);
-
-  fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
-    if (err) console.log(err);
-  });
-  res.status(200).send("Todo deleted successfully!");
+  if (!todos) {
+    res.sendStatus(400);
+  } else {
+    fs.writeFile(__dirname + todoFilePath, JSON.stringify(todos), (err) => {
+      if (err) console.log(err);
+    });
+    res.status(200).send("Todo deleted successfully!");
+  }
 });
 
 app.listen(port, function () {
