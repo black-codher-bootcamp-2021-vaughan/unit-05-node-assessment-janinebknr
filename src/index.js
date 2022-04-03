@@ -60,6 +60,18 @@ app.post("/todos/completed", (req, res) => {
 });
 
 //Add POST request with path '/todos'
+// create a new todo - add error functions
+app.post("/todos", (req, res) => {
+  const currentDate = new Date().toISOString();
+  todos.push({
+    id: uuidv4(),
+    name: req.body.name,
+    created: currentDate,
+    due: req.body.due,
+    completed: false,
+  });
+  res.send(todos);
+});
 
 //Add PATCH request with path '/todos/:id
 
